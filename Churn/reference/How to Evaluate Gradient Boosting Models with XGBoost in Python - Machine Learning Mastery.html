@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<title>How to Evaluate Gradient Boosting Models with XGBoost in Python - Machine Learning Mastery</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="pingback" href="http://machinelearningmastery.com/xmlrpc.php" />
+
+<!-- Start Visual Website Optimizer Asynchronous Code -->
+<script type='text/javascript'>
+var _vwo_code=(function(){
+var account_id=270912,
+settings_tolerance=2000,
+library_tolerance=2500,
+use_existing_jquery=false,
+f=false,d=document;return{use_existing_jquery:function(){return use_existing_jquery;},library_tolerance:function(){return library_tolerance;},finish:function(){if(!f){f=true;var a=d.getElementById('_vis_opt_path_hides');if(a)a.parentNode.removeChild(a);}},finished:function(){return f;},load:function(a){var b=d.createElement('script');b.src=a;b.type='text/javascript';b.innerText;b.onerror=function(){_vwo_code.finish();};d.getElementsByTagName('head')[0].appendChild(b);},init:function(){settings_timer=setTimeout('_vwo_code.finish()',settings_tolerance);this.load('//dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&r='+Math.random());var a=d.createElement('style'),b='body{opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important;}',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else a.appendChild(d.createTextNode(b));h.appendChild(a);return settings_timer;}};}());_vwo_settings_timer=_vwo_code.init();
+</script>
+<!-- End Visual Website Optimizer Asynchronous Code -->
+
+<!--  Mobile viewport scale -->
+<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" name="viewport"/>
+
+<!-- This site is optimized with the Yoast SEO plugin v4.7 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://machinelearningmastery.com/evaluate-gradient-boosting-models-xgboost-python/" />
+<link rel="publisher" href="https://plus.google.com/u/0/b/117073416089354242117/+MachinelearningmasteryHome/"/>
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="How to Evaluate Gradient Boosting Models with XGBoost in Python - Machine Learning Mastery" />
+<meta property="og:description" content="The goal of developing a predictive model is to develop a model that is accurate on unseen data. This can be achieved using statistical techniques where the training dataset is carefully used to estimate the performance of the model on new and unseen data. In this tutorial you will discover how you can evaluate the performance &hellip;" />
+<meta property="og:url" content="http://machinelearningmastery.com/evaluate-gradient-boosting-models-xgboost-python/" />
+<meta property="og:site_name" content="Machine Learning Mastery" />
+<meta property="article:publisher" content="https://www.facebook.com/Machine-Learning-Mastery-1429846323896563/" />
+<meta property="article:section" content="XGBoost" />
+<meta property="article:published_time" content="2016-08-26T05:00:22+10:00" />
+<meta property="article:modified_time" content="2017-01-04T10:26:09+10:00" />
+<meta property="og:updated_time" content="2017-01-04T10:26:09+10:00" />
+<meta property="og:image" content="http://machinelearningmastery.com/wp-content/uploads/2016/08/5526750448_b63fa67ee6_z.jpg" />
+<meta property="og:image:width" content="640" />
+<meta property="og:image:height" content="360" />
+<!-- / Yoast SEO plugin. -->
+
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Machine Learning Mastery &raquo; Feed" href="http://feeds.feedburner.com/MachineLearningMastery" />
+<link rel="alternate" type="application/rss+xml" title="Machine Learning Mastery &raquo; Comments Feed" href="http://machinelearningmastery.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Machine Learning Mastery &raquo; How to Evaluate Gradient Boosting Models with XGBoost in Python Comments Feed" href="http://machinelearningmastery.com/evaluate-gradient-boosting-models-xgboost-python/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/machinelearningmastery.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.7.4"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),!(j.toDataURL().length<3e3)&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,65039,8205,55356,57096),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,55356,57096),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55357,56425,55356,57341,8205,55357,56507),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55357,56425,55356,57341,55357,56507),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='crayon-css'  href='http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/plugins/crayon-syntax-highlighter/css/min/crayon.min.css?ver=_2.7.2_beta' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-theme-classic-css'  href='http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/plugins/crayon-syntax-highlighter/themes/classic/classic.css?ver=_2.7.2_beta' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-font-monaco-css'  href='http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/plugins/crayon-syntax-highlighter/fonts/monaco.css?ver=_2.7.2_beta' type='text/css' media='all' />
+<link rel='stylesheet' id='swiftype-css'  href='http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/plugins/swiftype-search/assets/autocomplete.css?ver=4.7.4' type='text/css' media='all' />
+<link rel='stylesheet' id='woo-testimonials-css-css'  href='http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/themes/canvas-new/includes/integrations/testimonials/css/testimonials.css?ver=4.7.4' type='text/css' media='all' />
+<link rel='stylesheet' id='theme-stylesheet-css'  href='http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/themes/canvas-new/style.css?ver=5.9.21' type='text/css' media='all' />
+<!-- This site uses the Google Analytics by MonsterInsights plugin v6.1.7 - Using Analytics tracking - https://www.monsterinsights.com/ -->
+<script type="text/javascript" data-cfasync="false">
+	/* Function to detect opted out users */
+	function __gaTrackerIsOptedOut() {
+		return document.cookie.indexOf(disableStr + '=true') > -1;
+	}
+
+	/* Disable tracking if the opt-out cookie exists. */
+	var disableStr = 'ga-disable-UA-44039733-3';
+	if ( __gaTrackerIsOptedOut() ) {
+		window[disableStr] = true;
+	}
+
+	/* Opt-out function */
+	function __gaTrackerOptout() {
+	  document.cookie = disableStr + '=true; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/';
+	  window[disableStr] = true;
+	}
+
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','__gaTracker');
+
+	__gaTracker('create', 'UA-44039733-3', 'auto');
+	__gaTracker('set', 'forceSSL', true);
+	__gaTracker('send','pageview');
+</script>
+<!-- / Google Analytics by MonsterInsights -->
+<!--[if lt IE 9]>
+<link href="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/themes/canvas-new/css/non-responsive.css" rel="stylesheet" type="text/css" />
+<style type="text/css">.col-full, #wrapper { width: 960px; max-width: 960px; } #inner-wrapper { padding: 0; } body.full-width #header, #nav-container, body.full-width #content, body.full-width #footer-widgets, body.full-width #footer { padding-left: 0; padding-right: 0; } body.fixed-mobile #top, body.fixed-mobile #header-container, body.fixed-mobile #footer-container, body.fixed-mobile #nav-container, body.fixed-mobile #footer-widgets-container { min-width: 960px; padding: 0 1em; } body.full-width #content { width: auto; padding: 0 1em;}</style>
+<![endif]-->
+<script type='text/javascript' src='http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var CrayonSyntaxSettings = {"version":"_2.7.2_beta","is_admin":"0","ajaxurl":"http:\/\/machinelearningmastery.com\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"Press %s to Copy, %s to Paste","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/plugins/crayon-syntax-highlighter/js/min/crayon.min.js?ver=_2.7.2_beta'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var swiftypeParams = {"engineKey":"EQnbutcu7sAwoF7N5nzx"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/plugins/swiftype-search/assets/install_swiftype.min.js?ver=4.7.4'></script>
+<script type='text/javascript' src='http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/themes/canvas-new/includes/js/third-party.min.js?ver=4.7.4'></script>
+<script type='text/javascript' src='http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/themes/canvas-new/includes/js/modernizr.min.js?ver=2.6.2'></script>
+<script type='text/javascript' src='http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/themes/canvas-new/includes/js/general.min.js?ver=4.7.4'></script>
+<link rel='https://api.w.org/' href='http://machinelearningmastery.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://machinelearningmastery.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://machinelearningmastery.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='shortlink' href='http://machinelearningmastery.com/?p=2992' />
+<link rel="alternate" type="application/json+oembed" href="http://machinelearningmastery.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fmachinelearningmastery.com%2Fevaluate-gradient-boosting-models-xgboost-python%2F" />
+<link rel="alternate" type="text/xml+oembed" href="http://machinelearningmastery.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fmachinelearningmastery.com%2Fevaluate-gradient-boosting-models-xgboost-python%2F&#038;format=xml" />
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '296263687421164');
+fbq('track', "PageView");</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=296263687421164&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+<!-- Custom CSS Styling -->
+<style type="text/css">
+#logo .site-title, #logo .site-description { display:none; }
+body {background-repeat:no-repeat;background-position:top left;background-attachment:scroll;border-top:0px solid #000000;}
+#header {background-repeat:no-repeat;background-position:left top;margin-top:0px;margin-bottom:0px;padding-top:10px;padding-bottom:10px;border:0px solid ;}
+#logo .site-title a {font:bold 40px/1em Helvetica Neue, Helvetica, sans-serif;color:#222222;}
+#logo .site-description {font:300 13px/1em Helvetica Neue, Helvetica, sans-serif;color:#999999;}
+body, p { font:300 14px/1.5em Helvetica Neue, Helvetica, sans-serif;color:#555555; }
+h1 { font:bold 28px/1.2em Helvetica Neue, Helvetica, sans-serif;color:#222222; }h2 { font:bold 24px/1.2em Helvetica Neue, Helvetica, sans-serif;color:#222222; }h3 { font:bold 20px/1.2em Helvetica Neue, Helvetica, sans-serif;color:#222222; }h4 { font:bold 16px/1.2em Helvetica Neue, Helvetica, sans-serif;color:#222222; }h5 { font:bold 14px/1.2em Helvetica Neue, Helvetica, sans-serif;color:#222222; }h6 { font:bold 12px/1.2em Helvetica Neue, Helvetica, sans-serif;color:#222222; }
+.page-title, .post .title, .page .title {font:bold 28px/1.1em Helvetica Neue, Helvetica, sans-serif;color:#222222;}
+.post .title a:link, .post .title a:visited, .page .title a:link, .page .title a:visited {color:#222222}
+.post-meta { font:300 12px/1.5em Helvetica Neue, Helvetica, sans-serif;color:#999999; }
+.entry, .entry p{ font:300 15px/1.5em Helvetica Neue, Helvetica, sans-serif;color:#555555; }
+.post-more {font:300 13px/1.5em &quot;Helvetica Neue&quot;, Helvetica, sans-serif;color:;border-top:0px solid #e6e6e6;border-bottom:0px solid #e6e6e6;}
+#post-author, #connect {border-top:1px solid #e6e6e6;border-bottom:1px solid #e6e6e6;border-left:1px solid #e6e6e6;border-right:1px solid #e6e6e6;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;background-color:#fafafa}
+.nav-entries a, .woo-pagination { font:300 13px/1em Helvetica Neue, Helvetica, sans-serif;color:#888; }
+.woo-pagination a, .woo-pagination a:hover {color:#888!important}
+.widget h3 {font:bold 14px/1.2em &quot;Helvetica Neue&quot;, Helvetica, sans-serif;color:#555555;border-bottom:1px solid #e6e6e6;}
+.widget_recent_comments li, #twitter li { border-color: #e6e6e6;}
+.widget p, .widget .textwidget { font:300 13px/1.5em Helvetica Neue, Helvetica, sans-serif;color:#555555; }
+.widget {font:300 13px/1.5em &quot;Helvetica Neue&quot;, Helvetica, sans-serif;color:#555555;border-radius:0px;-moz-border-radius:0px;-webkit-border-radius:0px;}
+#tabs .inside li a, .widget_woodojo_tabs .tabbable .tab-pane li a { font:bold 12px/1.5em Helvetica Neue, Helvetica, sans-serif;color:#555555; }
+#tabs .inside li span.meta, .widget_woodojo_tabs .tabbable .tab-pane li span.meta { font:300 11px/1.5em Helvetica Neue, Helvetica, sans-serif;color:#999999; }
+#tabs ul.wooTabs li a, .widget_woodojo_tabs .tabbable .nav-tabs li a { font:300 11px/2em Helvetica Neue, Helvetica, sans-serif;color:#999999; }
+@media only screen and (min-width:768px) {
+ul.nav li a, #navigation ul.rss a, #navigation ul.cart a.cart-contents, #navigation .cart-contents #navigation ul.rss, #navigation ul.nav-search, #navigation ul.nav-search a { font:300 14px/1.2em Helvetica Neue, Helvetica, sans-serif;color:#666666; } #navigation ul.rss li a:before, #navigation ul.nav-search a.search-contents:before { color:#666666;}
+#navigation ul.nav li ul, #navigation ul.cart > li > ul > div  { border: 0px solid #dbdbdb; }
+#navigation ul.nav > li:hover > ul  { left: 0; }
+#navigation ul.nav > li  { border-right: 0px solid #dbdbdb; }#navigation ul.nav > li:hover > ul  { left: 0; }
+#navigation { box-shadow: none; -moz-box-shadow: none; -webkit-box-shadow: none; }#navigation ul li:first-child, #navigation ul li:first-child a { border-radius:0px 0 0 0px; -moz-border-radius:0px 0 0 0px; -webkit-border-radius:0px 0 0 0px; }
+#navigation {border-top:0px solid #dbdbdb;border-bottom:0px solid #dbdbdb;border-left:0px solid #dbdbdb;border-right:0px solid #dbdbdb;border-radius:0px; -moz-border-radius:0px; -webkit-border-radius:0px;}
+#top ul.nav li a { font:300 12px/1.6em Helvetica Neue, Helvetica, sans-serif;color:#ddd; }
+}
+#footer, #footer p { font:300 13px/1.4em Helvetica Neue, Helvetica, sans-serif;color:#999999; }
+#footer {border-top:1px solid #dbdbdb;border-bottom:0px solid ;border-left:0px solid ;border-right:0px solid ;border-radius:0px; -moz-border-radius:0px; -webkit-border-radius:0px;}
+.magazine #loopedSlider .content h2.title a { font:bold 24px/1em Arial, sans-serif;color:#ffffff; }
+.wooslider-theme-magazine .slide-title a { font:bold 24px/1em Arial, sans-serif;color:#ffffff; }
+.magazine #loopedSlider .content .excerpt p { font:300 13px/1.5em Arial, sans-serif;color:#cccccc; }
+.wooslider-theme-magazine .slide-content p, .wooslider-theme-magazine .slide-excerpt p { font:300 13px/1.5em Arial, sans-serif;color:#cccccc; }
+.magazine .block .post .title a {font:bold 18px/1.2em Helvetica Neue, Helvetica, sans-serif;color:#222222; }
+#loopedSlider.business-slider .content h2 { font:bold 24px/1em Arial, sans-serif;color:#ffffff; }
+#loopedSlider.business-slider .content h2.title a { font:bold 24px/1em Arial, sans-serif;color:#ffffff; }
+.wooslider-theme-business .has-featured-image .slide-title { font:bold 24px/1em Arial, sans-serif;color:#ffffff; }
+.wooslider-theme-business .has-featured-image .slide-title a { font:bold 24px/1em Arial, sans-serif;color:#ffffff; }
+#wrapper #loopedSlider.business-slider .content p { font:300 13px/1.5em Arial, sans-serif;color:#cccccc; }
+.wooslider-theme-business .has-featured-image .slide-content p { font:300 13px/1.5em Arial, sans-serif;color:#cccccc; }
+.wooslider-theme-business .has-featured-image .slide-excerpt p { font:300 13px/1.5em Arial, sans-serif;color:#cccccc; }
+.archive_header { font:bold 18px/1em Arial, sans-serif;color:#222222; }
+.archive_header {border-bottom:1px solid #e6e6e6;}
+</style>
+
+<!-- Woo Shortcodes CSS -->
+<link href="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/themes/canvas-new/functions/css/shortcodes.css" rel="stylesheet" type="text/css" />
+
+<!-- Custom Stylesheet -->
+<link href="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/themes/canvas-new/custom.css" rel="stylesheet" type="text/css" />
+
+<!-- Theme version -->
+<meta name="generator" content="Canvas 5.9.21" />
+<meta name="generator" content="WooFramework 6.2.8" />
+<link rel="icon" href="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/uploads/2016/09/cropped-icon-32x32.png" sizes="32x32" />
+<link rel="icon" href="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/uploads/2016/09/cropped-icon-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon-precomposed" href="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/uploads/2016/09/cropped-icon-180x180.png" />
+<meta name="msapplication-TileImage" content="http://machinelearningmastery.com/wp-content/uploads/2016/09/cropped-icon-270x270.png" />
+</head>
+<body class="post-template-default single single-post postid-2992 single-format-standard chrome alt-style-default two-col-left width-960 two-col-left-960">
+<div id="wrapper">
+
+	<div id="inner-wrapper">
+
+	<h3 class="nav-toggle icon"><a href="#navigation">Navigation</a></h3>
+
+	<header id="header" class="col-full">
+
+		<div id="logo">
+<a href="http://machinelearningmastery.com/" title="Making developers awesome at machine learning"><img src="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/uploads/2016/06/MachineLearningMastery.png" alt="Machine Learning Mastery" /></a>
+<span class="site-title"><a href="http://machinelearningmastery.com/">Machine Learning Mastery</a></span>
+<span class="site-description">Making developers awesome at machine learning</span>
+</div>
+	    <div class="header-widget">
+	        <div id="text-3" class="widget widget_text">			<div class="textwidget"><br />
+<div style="font-size:12pt;">
+<a href="/start-here"><strong>Start Here</strong></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/blog">Blog</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/products">Books</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/about">About</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/contact">Contact</a>
+</div></div>
+		</div><div id="search-3" class="widget widget_search"><div class="search_main">
+    <form method="get" class="searchform" action="http://machinelearningmastery.com/" >
+        <input type="text" class="field s" name="s" value="Search..." onfocus="if (this.value == 'Search...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Search...';}" />
+        <button type="submit" class="fa fa-search submit" name="submit" value="Search"></button>
+    </form>
+    <div class="fix"></div>
+</div></div>	    </div>
+	
+	</header>
+	<nav id="navigation" class="col-full" role="navigation">
+
+	
+	<section class="menus">
+
+		<a href="http://machinelearningmastery.com" class="nav-home"><span>Home</span></a>
+
+	<h3>Empty Menu</h3>	<div class="side-nav">
+		</div><!-- /#side-nav -->
+
+	</section><!-- /.menus -->
+
+	<a href="#top" class="nav-close"><span>Return to Content</span></a>
+
+</nav>
+       
+    <!-- #content Starts -->
+	    <div id="content" class="col-full">
+    
+    	<div id="main-sidebar-container">    
+
+            <!-- #main Starts -->
+                        <section id="main">                       
+<article class="post-2992 post type-post status-publish format-standard has-post-thumbnail hentry category-xgboost">
+	<header>
+	<h1 class="title entry-title">How to Evaluate Gradient Boosting Models with XGBoost in Python</h1>	</header>
+<div class="post-meta"><span class="small">By</span> <span class="author vcard"><span class="fn"><a href="http://machinelearningmastery.com/author/jasonb/" title="Posts by Jason Brownlee" rel="author">Jason Brownlee</a></span></span> <span class="small">on</span> <abbr class="date time published updated" title="2016-08-26T05:00:22+1000">August 26, 2016</abbr>  <span class="small">in</span> <span class="categories"><a href="http://machinelearningmastery.com/category/xgboost/" title="View all items in XGBoost">XGBoost</a></span>  </div>
+	<section class="entry">
+<div id="fsb-social-bar" class="fsb-social-bar" data-post-id="2992" data-socialite="false"><style type="text/css">            #fsb-social-bar { width: 100%; border-bottom: 1px solid #dbdbdb; border-top: 1px solid #dbdbdb; padding: 10px 0; margin: 0px 0 20px 0; float: left; background: #fff; position: relative; clear: both; }            #fsb-social-bar a { border: 0px !important }            #fsb-social-bar.fsb-fixed { position: fixed; top: -2px; z-index: 99999; }            #fsb-social-bar .fsb-title { display: block; float: left; margin: 3px 20px 0 0; font-size: 16px; font-family: Arial, Helvetica, sans-serif; text-decoration: none; color: #333; }            #fsb-social-bar .fsb-share-facebook { width: 120px; float: left; padding: 3px 0 2px; height: 25px; }            #fsb-social-bar .fsb-share-facebook.fsb-hide-count { width: 44px; overflow: hidden; margin-right: 30px; }            #fsb-social-bar .fsb-share-twitter { float: left; width: 135px; padding: 3px 0 2px; height: 25px; }            #fsb-social-bar .fsb-share-twitter.fsb-hide-count { width: 61px; overflow: hidden; margin-right: 30px; }            #fsb-social-bar .fsb-share-google { float: left; width: 105px; padding: 3px 0 2px; height: 25px; }            #fsb-social-bar .fsb-share-google.fsb-hide-count { width: 33px; overflow: hidden; margin-right: 30px; }            #fsb-social-bar .fsb-share-linkedin { float: left; width: 135px; padding: 3px 0 2px; height: 25px; }            #fsb-social-bar .fsb-share-linkedin.fsb-hide-count { width: 61px; overflow: hidden; margin-right: 30px; }            #fsb-social-bar .fsb-share-pinterest { float: left; width: 115px; padding: 3px 0 2px; height: 25px;}            #fsb-social-bar .fsb-share-pinterest.fsb-hide-count { width: 43px; overflow: hidden; margin-right: 30px; }            #fsb-social-bar .socialite { display: block; position: relative; background: url(http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/plugins/floating-social-bar/images/fsb-sprite.png) no-repeat scroll 0 0; }            #fsb-social-bar .socialite-loaded { background: none !important; }            #fsb-social-bar .fsb-service-title { display: none; }            #fsb-social-bar a { color: #333; text-decoration: none; font-size: 12px; font-family: Arial, Helvetica, sans-serif; }            #fsb-social-bar .fsb-twitter { width: 105px; height: 25px; background-position: -13px -10px; line-height: 25px; vertical-align: middle; }            #fsb-social-bar .fsb-twitter .fsb-count { width: 30px; text-align: center; display: inline-block; margin: 0px 0 0 69px; color: #333; }            #fsb-social-bar .fsb-google { width: 75px; height: 25px; background-position: -136px -10px; line-height: 25px; vertical-align: middle; }            #fsb-social-bar .fsb-google .fsb-count { width: 30px; text-align: center; display: inline-block; margin: 0px 0 0 41px; color: #333; }            #fsb-social-bar .fsb-google .socialite-button { margin: 0 !important; }            #fsb-social-bar .fsb-share-google .socialite-loaded .socialite-button{padding: 2px 0 0}            #fsb-social-bar .fsb-facebook { width: 89px; height: 25px; background-position: -231px -10px; line-height: 25px; vertical-align: middle; }            #fsb-social-bar .fsb-facebook .fsb-count { width: 30px; text-align: center; display: inline-block; margin: 0px 0 0 52px; color: #333; }            #fsb-social-bar .fsb-facebook .socialite-button { margin: 0 !important;}            #fsb-social-bar .fsb-share-facebook .socialite-loaded .socialite-button {padding: 2px 0 0}            #fsb-social-bar .fsb-linkedin { width: 105px; height: 25px; background-position: -347px -10px; line-height: 25px; vertical-align: middle; }            #fsb-social-bar .fsb-linkedin .fsb-count { width: 30px; text-align: center; display: inline-block; margin: 0px 0 0 70px; color: #333; }            #fsb-social-bar .fsb-linkedin .socialite-button { margin: 0 !important; }            #fsb-social-bar .fsb-pinterest { width: 88px; height: 25px; background-position: -484px -10px; line-height: 25px; vertical-align: middle; }            #fsb-social-bar .fsb-pinterest .fsb-count { width: 30px; text-align: center; display: inline-block; margin: 0px 0 0 50px; color: #333; }            #fsb-social-bar .fsb-pinterest .socialite-button { margin: 0 !important; }            .fsb-clear { clear: both; }            .fsb-clear:after { clear:both; content:; display:block; height:0; line-height:0; overflow:auto; visibility:hidden; zoom:1; }            @media (max-width: 768px) { #fsb-social-bar.fsb-fixed { position: relative !important; top: auto !important; } }        </style><div class="fsb-share-facebook fsb-hide-count"><a href="http://www.facebook.com/sharer.php?u=http://machinelearningmastery.com/evaluate-gradient-boosting-models-xgboost-python/" class="socialite facebook fsb-facebook" data-fsb-service="facebook" data-href="http://machinelearningmastery.com/evaluate-gradient-boosting-models-xgboost-python/" data-send="false" data-layout="button_count" data-width="60" data-show-faces="false" rel="nofollow" target="_blank"><span class="fsb-service-title">Facebook</span><span class="fsb-count">0</span></a></div><div class="fsb-share-twitter fsb-hide-count"><a href="https://twitter.com/share?original_referer=http%3A%2F%2Fmachinelearningmastery.com%2F&source=tweetbutton&text=How+to+Evaluate+Gradient+Boosting+Models+with+XGBoost+in+Python&url=http%3A%2F%2Fmachinelearningmastery.com%2Fevaluate-gradient-boosting-models-xgboost-python%2F&via=TeachTheMachine" class="socialite twitter fsb-twitter" data-fsb-service="twitter" rel="nofollow" target="_blank" title="Be the first one to tweet this article!"><span class="fsb-service-title">Twitter</span><span class="fsb-count">0</span></a></div><div class="fsb-share-google fsb-hide-count"><a href="https://plus.google.com/share?url=http://machinelearningmastery.com/evaluate-gradient-boosting-models-xgboost-python/" class="socialite googleplus fsb-google" data-fsb-service="google" data-size="medium" data-href="http://machinelearningmastery.com/evaluate-gradient-boosting-models-xgboost-python/" rel="nofollow" target="_blank"><span class="fsb-service-title">Google+</span><span class="fsb-count">0</span></a></div><div class="fsb-share-linkedin fsb-hide-count"><a href="https://www.linkedin.com/cws/share?url=http://machinelearningmastery.com/evaluate-gradient-boosting-models-xgboost-python/" class="socialite linkedin fsb-linkedin" data-fsb-service="linkedin" data-size="medium" data-href="http://machinelearningmastery.com/evaluate-gradient-boosting-models-xgboost-python/" rel="nofollow" target="_blank"><span class="fsb-service-title">LinkedIn</span><span class="fsb-count">0</span></a></div></div><div class="fsb-clear"></div><p>The goal of developing a predictive model is to develop a model that is accurate on unseen data.</p>
+<p>This can be achieved using statistical techniques where the training dataset is carefully used to estimate the performance of the model on new and unseen data.</p>
+<p>In this tutorial you will discover how you can evaluate the performance of your gradient boosting models with XGBoost in Python.</p>
+<p>After completing this tutorial, you will know.</p>
+<ul>
+<li>How to evaluate the performance of your XGBoost models using train and test datasets.</li>
+<li>How to evaluate the performance of your XGBoost models using k-fold cross validation.</li>
+</ul>
+<p>Let&#8217;s get started.</p>
+<ul>
+<li><strong>Update Jan/2017</strong>: Updated to reflect changes in scikit-learn API version 0.18.1.</li>
+</ul>
+<div id="attachment_2994" style="width: 650px" class="wp-caption aligncenter"><img class="size-full wp-image-2994" src="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/uploads/2016/08/5526750448_b63fa67ee6_z.jpg" alt="How to Evaluate Gradient Boosting Models with XGBoost in Python" width="640" height="360" srcset="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/uploads/2016/08/5526750448_b63fa67ee6_z.jpg 640w, http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/uploads/2016/08/5526750448_b63fa67ee6_z-300x169.jpg 300w" sizes="(max-width: 640px) 100vw, 640px" /><p class="wp-caption-text">How to Evaluate Gradient Boosting Models with XGBoost in Python<br />Photo by <a href="https://www.flickr.com/photos/nox_noctis_silentium/5526750448/">Timitrius</a>, some rights reserved.</p></div>
+<!-- Start Shortcoder content --><p><div class="woo-sc-hr"></div></p>
+<h2 style="text-align: center;">Don’t Waste Another Day Learning XGBoost <br />“The Slow Way”</h2>
+<p style="text-align: center;"><img class="alignleft size-full wp-image-3428" style="border: 0;" src="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/uploads/2016/11/XGBoostWithPython_ipad-300.png" alt="XGBoost With Python Mini-Course" width="300" height="413" />Develop your first XGBoost TODAY with my free XGBoost-With-Python mini-course.</p>
+<h4 style="text-align: center;">...with an XG-Boost-With-Python “Cheat Sheet” you can download right now, so you can start learning this award-winning algorithm <br />“The Fast Way”</h4>
+<center><a href="https://machinelearningmastery.leadpages.co/leadbox/1431f1e73f72a2%3A164f8be4f346dc/5662543133540352/" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://machinelearningmastery.leadpages.co/leadbox/1431f1e73f72a2%3A164f8be4f346dc/5662543133540352/', 'Download Your FREE Mini-Course');" style="color: #ffffff; text-decoration: none; font-family: Helvetica, Arial, sans-serif; font-weight: bold; font-size: 16px; line-height: 20px; padding: 10px; display: inline-block; max-width: 300px; border-radius: 5px; text-shadow: rgba(0, 0, 0, 0.247059) 0px -1px 1px; box-shadow: rgba(255, 255, 255, 0.498039) 0px 1px 3px inset, rgba(0, 0, 0, 0.498039) 0px 1px 3px; background: #ffce0a;"  target="_blank">Download Your FREE Mini-Course</a> <script src="https://machinelearningmastery.leadpages.co/leadbox-1034.js" type="text/javascript" data-leadbox="1431f1e73f72a2:164f8be4f346dc" data-url="https://machinelearningmastery.leadpages.co/leadbox/1431f1e73f72a2%3A164f8be4f346dc/5662543133540352/" data-config="%7B%7D"></script></center>
+<p style="text-align: center;"> </p>
+<p><div class="woo-sc-hr"></div></p><!-- End Shortcoder content -->
+<h2>Evaluate XGBoost Models With Train and Test Sets</h2>
+<p>The simplest method that we can use to evaluate the performance of a machine learning algorithm is to use different training and testing datasets.</p>
+<p>We can take our original dataset and split it into two parts. Train the algorithm on the first part, then make predictions on the second part and evaluate the predictions against the expected results.</p>
+<p>The size of the split can depend on the size and specifics of your dataset, although it is common to use 67% of the data for training and the remaining 33% for testing.</p>
+<p>This algorithm evaluation technique is fast. It is ideal for large datasets (millions of records) where there is strong evidence that both splits of the data are representative of the underlying problem. Because of the speed, it is useful to use this approach when the algorithm you are investigating is slow to train.</p>
+<p>A downside of this technique is that it can have a high variance. This means that differences in the training and test dataset can result in meaningful differences in the estimate of model accuracy.</p>
+<p>We can split the dataset into a train and test set using the <strong>train_test_split()</strong> function from the scikit-learn library. For example, we can split the dataset into a 67% and 33% split for training and test sets as follows:</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5911342c9c142520945490" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+# split data into train and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.33, random_state=7)</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5911342c9c142520945490-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342c9c142520945490-2">2</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5911342c9c142520945490-1"><span class="crayon-p"># split data into train and test sets</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342c9c142520945490-2"><span class="crayon-v">X_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">X_test</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_test</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">train_test_split</span><span class="crayon-sy">(</span><span class="crayon-v">X</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">Y</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">test_size</span><span class="crayon-o">=</span><span class="crayon-cn">0.33</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">random_state</span><span class="crayon-o">=</span><span class="crayon-cn">7</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0010 seconds] -->
+<p>The full code listing is provided below using the <a href="https://archive.ics.uci.edu/ml/datasets/Pima+Indians+Diabetes">Pima Indians onset of diabetes dataset</a>, assumed to be in the current working directory. An XGBoost model with default configuration is fit on the training dataset and evaluated on the test dataset.</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5911342c9c14c285638272" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+# train-test split evaluation of xgboost model
+from numpy import loadtxt
+from xgboost import XGBClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+# load data
+dataset = loadtxt('pima-indians-diabetes.csv', delimiter=",")
+# split data into X and y
+X = dataset[:,0:8]
+Y = dataset[:,8]
+# split data into train and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.33, random_state=7)
+# fit model no training data
+model = XGBClassifier()
+model.fit(X_train, y_train)
+# make predictions for test data
+y_pred = model.predict(X_test)
+predictions = [round(value) for value in y_pred]
+# evaluate predictions
+accuracy = accuracy_score(y_test, predictions)
+print("Accuracy: %.2f%%" % (accuracy * 100.0))</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5911342c9c14c285638272-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342c9c14c285638272-2">2</div><div class="crayon-num" data-line="crayon-5911342c9c14c285638272-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342c9c14c285638272-4">4</div><div class="crayon-num" data-line="crayon-5911342c9c14c285638272-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342c9c14c285638272-6">6</div><div class="crayon-num" data-line="crayon-5911342c9c14c285638272-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342c9c14c285638272-8">8</div><div class="crayon-num" data-line="crayon-5911342c9c14c285638272-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342c9c14c285638272-10">10</div><div class="crayon-num" data-line="crayon-5911342c9c14c285638272-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342c9c14c285638272-12">12</div><div class="crayon-num" data-line="crayon-5911342c9c14c285638272-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342c9c14c285638272-14">14</div><div class="crayon-num" data-line="crayon-5911342c9c14c285638272-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342c9c14c285638272-16">16</div><div class="crayon-num" data-line="crayon-5911342c9c14c285638272-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342c9c14c285638272-18">18</div><div class="crayon-num" data-line="crayon-5911342c9c14c285638272-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342c9c14c285638272-20">20</div><div class="crayon-num" data-line="crayon-5911342c9c14c285638272-21">21</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5911342c9c14c285638272-1"><span class="crayon-p"># train-test split evaluation of xgboost model</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342c9c14c285638272-2"><span class="crayon-e">from </span><span class="crayon-e">numpy </span><span class="crayon-e">import </span><span class="crayon-e">loadtxt</span></div><div class="crayon-line" id="crayon-5911342c9c14c285638272-3"><span class="crayon-e">from </span><span class="crayon-e">xgboost </span><span class="crayon-e">import </span><span class="crayon-e">XGBClassifier</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342c9c14c285638272-4"><span class="crayon-e">from </span><span class="crayon-v">sklearn</span><span class="crayon-sy">.</span><span class="crayon-e">model_selection </span><span class="crayon-e">import </span><span class="crayon-e">train_test_split</span></div><div class="crayon-line" id="crayon-5911342c9c14c285638272-5"><span class="crayon-e">from </span><span class="crayon-v">sklearn</span><span class="crayon-sy">.</span><span class="crayon-e">metrics </span><span class="crayon-e">import </span><span class="crayon-v">accuracy_score</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342c9c14c285638272-6"><span class="crayon-p"># load data</span></div><div class="crayon-line" id="crayon-5911342c9c14c285638272-7"><span class="crayon-v">dataset</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">loadtxt</span><span class="crayon-sy">(</span><span class="crayon-s">'pima-indians-diabetes.csv'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">delimiter</span><span class="crayon-o">=</span><span class="crayon-s">","</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342c9c14c285638272-8"><span class="crayon-p"># split data into X and y</span></div><div class="crayon-line" id="crayon-5911342c9c14c285638272-9"><span class="crayon-v">X</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">dataset</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-sy">,</span><span class="crayon-cn">0</span><span class="crayon-o">:</span><span class="crayon-cn">8</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342c9c14c285638272-10"><span class="crayon-v">Y</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">dataset</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-sy">,</span><span class="crayon-cn">8</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="crayon-5911342c9c14c285638272-11"><span class="crayon-p"># split data into train and test sets</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342c9c14c285638272-12"><span class="crayon-v">X_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">X_test</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_test</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">train_test_split</span><span class="crayon-sy">(</span><span class="crayon-v">X</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">Y</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">test_size</span><span class="crayon-o">=</span><span class="crayon-cn">0.33</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">random_state</span><span class="crayon-o">=</span><span class="crayon-cn">7</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-5911342c9c14c285638272-13"><span class="crayon-p"># fit model no training data</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342c9c14c285638272-14"><span class="crayon-v">model</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">XGBClassifier</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-5911342c9c14c285638272-15"><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-e">fit</span><span class="crayon-sy">(</span><span class="crayon-v">X_train</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">y_train</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342c9c14c285638272-16"><span class="crayon-p"># make predictions for test data</span></div><div class="crayon-line" id="crayon-5911342c9c14c285638272-17"><span class="crayon-v">y_pred</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-e">predict</span><span class="crayon-sy">(</span><span class="crayon-v">X_test</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342c9c14c285638272-18"><span class="crayon-v">predictions</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-e">round</span><span class="crayon-sy">(</span><span class="crayon-v">value</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-e">value </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-v">y_pred</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="crayon-5911342c9c14c285638272-19"><span class="crayon-p"># evaluate predictions</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342c9c14c285638272-20"><span class="crayon-v">accuracy</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">accuracy_score</span><span class="crayon-sy">(</span><span class="crayon-v">y_test</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">predictions</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-5911342c9c14c285638272-21"><span class="crayon-e">print</span><span class="crayon-sy">(</span><span class="crayon-s">"Accuracy: %.2f%%"</span><span class="crayon-h"> </span><span class="crayon-o">%</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-e ">accuracy *</span><span class="crayon-h"> </span><span class="crayon-cn">100.0</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0011 seconds] -->
+<p>Running this example summarizes the performance of the model on the test set.</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5911342c9c150949448770" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+Accuracy: 77.95%</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5911342c9c150949448770-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5911342c9c150949448770-1">Accuracy: 77.95%</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+<p></p>
+<h2>Evaluate XGBoost Models With k-Fold Cross Validation</h2>
+<p>Cross validation is an approach that you can use to estimate the performance of a machine learning algorithm with less variance than a single train-test set split.</p>
+<p>It works by splitting the dataset into k-parts (e.g. k=5 or k=10). Each split of the data is called a fold. The algorithm is trained on k-1 folds with one held back and tested on the held back fold. This is repeated so that each fold of the dataset is given a chance to be the held back test set.</p>
+<p>After running cross validation you end up with k different performance scores that you can summarize using a mean and a standard deviation.</p>
+<p>The result is a more reliable estimate of the performance of the algorithm on new data given your test data. It is more accurate because the algorithm is trained and evaluated multiple times on different data.</p>
+<p>The choice of k must allow the size of each test partition to be large enough to be a reasonable sample of the problem, whilst allowing enough repetitions of the train-test evaluation of the algorithm to provide a fair estimate of the algorithms performance on unseen data. For modest sized datasets in the thousands or tens of thousands of observations, k values of 3, 5 and 10 are common.</p>
+<p>We can use k-fold cross validation support provided in scikit-learn. First we must create the <a href="http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.KFold.html">KFold</a> object specifying the number of folds and the size of the dataset. We can then use this scheme with the specific dataset. The <strong>cross_val_score()</strong> function from scikit-learn allows us to evaluate a model using the cross validation scheme and returns a list of the scores for each model trained on each fold.</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5911342c9c153278865845" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+kfold = KFold(n_splits=10, random_state=7)
+results = cross_val_score(model, X, Y, cv=kfold)</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5911342c9c153278865845-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342c9c153278865845-2">2</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5911342c9c153278865845-1"><span class="crayon-v">kfold</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">KFold</span><span class="crayon-sy">(</span><span class="crayon-v">n_splits</span><span class="crayon-o">=</span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">random_state</span><span class="crayon-o">=</span><span class="crayon-cn">7</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342c9c153278865845-2"><span class="crayon-v">results</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">cross_val_score</span><span class="crayon-sy">(</span><span class="crayon-v">model</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">X</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">Y</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">cv</span><span class="crayon-o">=</span><span class="crayon-v">kfold</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0003 seconds] -->
+<p>The full code listing for evaluating an XGBoost model with k-fold cross validation is provided below for completeness.</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5911342cab3b5318372806" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+# k-fold cross validation evaluation of xgboost model
+from numpy import loadtxt
+import xgboost
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
+# load data
+dataset = loadtxt('pima-indians-diabetes.csv', delimiter=",")
+# split data into X and y
+X = dataset[:,0:8]
+Y = dataset[:,8]
+# CV model
+model = xgboost.XGBClassifier()
+kfold = KFold(n_splits=10, random_state=7)
+results = cross_val_score(model, X, Y, cv=kfold)
+print("Accuracy: %.2f%% (%.2f%%)" % (results.mean()*100, results.std()*100))</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5911342cab3b5318372806-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342cab3b5318372806-2">2</div><div class="crayon-num" data-line="crayon-5911342cab3b5318372806-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342cab3b5318372806-4">4</div><div class="crayon-num" data-line="crayon-5911342cab3b5318372806-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342cab3b5318372806-6">6</div><div class="crayon-num" data-line="crayon-5911342cab3b5318372806-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342cab3b5318372806-8">8</div><div class="crayon-num" data-line="crayon-5911342cab3b5318372806-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342cab3b5318372806-10">10</div><div class="crayon-num" data-line="crayon-5911342cab3b5318372806-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342cab3b5318372806-12">12</div><div class="crayon-num" data-line="crayon-5911342cab3b5318372806-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342cab3b5318372806-14">14</div><div class="crayon-num" data-line="crayon-5911342cab3b5318372806-15">15</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5911342cab3b5318372806-1"><span class="crayon-p"># k-fold cross validation evaluation of xgboost model</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342cab3b5318372806-2"><span class="crayon-e">from </span><span class="crayon-e">numpy </span><span class="crayon-e">import </span><span class="crayon-e">loadtxt</span></div><div class="crayon-line" id="crayon-5911342cab3b5318372806-3"><span class="crayon-e">import </span><span class="crayon-e">xgboost</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342cab3b5318372806-4"><span class="crayon-e">from </span><span class="crayon-v">sklearn</span><span class="crayon-sy">.</span><span class="crayon-e">model_selection </span><span class="crayon-e">import </span><span class="crayon-e">KFold</span></div><div class="crayon-line" id="crayon-5911342cab3b5318372806-5"><span class="crayon-e">from </span><span class="crayon-v">sklearn</span><span class="crayon-sy">.</span><span class="crayon-e">model_selection </span><span class="crayon-e">import </span><span class="crayon-v">cross_val_score</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342cab3b5318372806-6"><span class="crayon-p"># load data</span></div><div class="crayon-line" id="crayon-5911342cab3b5318372806-7"><span class="crayon-v">dataset</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">loadtxt</span><span class="crayon-sy">(</span><span class="crayon-s">'pima-indians-diabetes.csv'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">delimiter</span><span class="crayon-o">=</span><span class="crayon-s">","</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342cab3b5318372806-8"><span class="crayon-p"># split data into X and y</span></div><div class="crayon-line" id="crayon-5911342cab3b5318372806-9"><span class="crayon-v">X</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">dataset</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-sy">,</span><span class="crayon-cn">0</span><span class="crayon-o">:</span><span class="crayon-cn">8</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342cab3b5318372806-10"><span class="crayon-v">Y</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">dataset</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-sy">,</span><span class="crayon-cn">8</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="crayon-5911342cab3b5318372806-11"><span class="crayon-p"># CV model</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342cab3b5318372806-12"><span class="crayon-v">model</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">xgboost</span><span class="crayon-sy">.</span><span class="crayon-e">XGBClassifier</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-5911342cab3b5318372806-13"><span class="crayon-v">kfold</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">KFold</span><span class="crayon-sy">(</span><span class="crayon-v">n_splits</span><span class="crayon-o">=</span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">random_state</span><span class="crayon-o">=</span><span class="crayon-cn">7</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342cab3b5318372806-14"><span class="crayon-v">results</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">cross_val_score</span><span class="crayon-sy">(</span><span class="crayon-v">model</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">X</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">Y</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">cv</span><span class="crayon-o">=</span><span class="crayon-v">kfold</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-5911342cab3b5318372806-15"><span class="crayon-e">print</span><span class="crayon-sy">(</span><span class="crayon-s">"Accuracy: %.2f%% (%.2f%%)"</span><span class="crayon-h"> </span><span class="crayon-o">%</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">results</span><span class="crayon-sy">.</span><span class="crayon-e">mean</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-o">*</span><span class="crayon-cn">100</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">results</span><span class="crayon-sy">.</span><span class="crayon-e">std</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-o">*</span><span class="crayon-cn">100</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0009 seconds] -->
+<p>Running this example summarizes the performance of the default model configuration on the dataset including both the mean and standard deviation classification accuracy.</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5911342cab3d0241735809" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+Accuracy: 76.69% (7.11%)</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5911342cab3d0241735809-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5911342cab3d0241735809-1">Accuracy: 76.69% (7.11%)</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+<p>If you have many classes for a classification type predictive modeling problem or the classes are imbalanced (there are a lot more instances for one class than another), it can be a good idea to create stratified folds when performing cross validation.</p>
+<p>This has the effect of enforcing the same distribution of classes in each fold as in the whole training dataset when performing the cross validation evaluation. The scikit-learn library provides this capability in the <a href="http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.StratifiedKFold.html">StratifiedKFold</a> class.</p>
+<p>Below is the same example modified to use stratified cross validation to evaluate an XGBoost model.</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5911342cab3d3462103611" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+# stratified k-fold cross validation evaluation of xgboost model
+from numpy import loadtxt
+import xgboost
+from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import cross_val_score
+# load data
+dataset = loadtxt('pima-indians-diabetes.csv', delimiter=",")
+# split data into X and y
+X = dataset[:,0:8]
+Y = dataset[:,8]
+# CV model
+model = xgboost.XGBClassifier()
+kfold = StratifiedKFold(n_splits=10, random_state=7)
+results = cross_val_score(model, X, Y, cv=kfold)
+print("Accuracy: %.2f%% (%.2f%%)" % (results.mean()*100, results.std()*100))</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5911342cab3d3462103611-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342cab3d3462103611-2">2</div><div class="crayon-num" data-line="crayon-5911342cab3d3462103611-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342cab3d3462103611-4">4</div><div class="crayon-num" data-line="crayon-5911342cab3d3462103611-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342cab3d3462103611-6">6</div><div class="crayon-num" data-line="crayon-5911342cab3d3462103611-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342cab3d3462103611-8">8</div><div class="crayon-num" data-line="crayon-5911342cab3d3462103611-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342cab3d3462103611-10">10</div><div class="crayon-num" data-line="crayon-5911342cab3d3462103611-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342cab3d3462103611-12">12</div><div class="crayon-num" data-line="crayon-5911342cab3d3462103611-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-5911342cab3d3462103611-14">14</div><div class="crayon-num" data-line="crayon-5911342cab3d3462103611-15">15</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5911342cab3d3462103611-1"><span class="crayon-p"># stratified k-fold cross validation evaluation of xgboost model</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342cab3d3462103611-2"><span class="crayon-e">from </span><span class="crayon-e">numpy </span><span class="crayon-e">import </span><span class="crayon-e">loadtxt</span></div><div class="crayon-line" id="crayon-5911342cab3d3462103611-3"><span class="crayon-e">import </span><span class="crayon-e">xgboost</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342cab3d3462103611-4"><span class="crayon-e">from </span><span class="crayon-v">sklearn</span><span class="crayon-sy">.</span><span class="crayon-e">model_selection </span><span class="crayon-e">import </span><span class="crayon-e">StratifiedKFold</span></div><div class="crayon-line" id="crayon-5911342cab3d3462103611-5"><span class="crayon-e">from </span><span class="crayon-v">sklearn</span><span class="crayon-sy">.</span><span class="crayon-e">model_selection </span><span class="crayon-e">import </span><span class="crayon-v">cross_val_score</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342cab3d3462103611-6"><span class="crayon-p"># load data</span></div><div class="crayon-line" id="crayon-5911342cab3d3462103611-7"><span class="crayon-v">dataset</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">loadtxt</span><span class="crayon-sy">(</span><span class="crayon-s">'pima-indians-diabetes.csv'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">delimiter</span><span class="crayon-o">=</span><span class="crayon-s">","</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342cab3d3462103611-8"><span class="crayon-p"># split data into X and y</span></div><div class="crayon-line" id="crayon-5911342cab3d3462103611-9"><span class="crayon-v">X</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">dataset</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-sy">,</span><span class="crayon-cn">0</span><span class="crayon-o">:</span><span class="crayon-cn">8</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342cab3d3462103611-10"><span class="crayon-v">Y</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">dataset</span><span class="crayon-sy">[</span><span class="crayon-o">:</span><span class="crayon-sy">,</span><span class="crayon-cn">8</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="crayon-5911342cab3d3462103611-11"><span class="crayon-p"># CV model</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342cab3d3462103611-12"><span class="crayon-v">model</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">xgboost</span><span class="crayon-sy">.</span><span class="crayon-e">XGBClassifier</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-5911342cab3d3462103611-13"><span class="crayon-v">kfold</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">StratifiedKFold</span><span class="crayon-sy">(</span><span class="crayon-v">n_splits</span><span class="crayon-o">=</span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">random_state</span><span class="crayon-o">=</span><span class="crayon-cn">7</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-5911342cab3d3462103611-14"><span class="crayon-v">results</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">cross_val_score</span><span class="crayon-sy">(</span><span class="crayon-v">model</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">X</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">Y</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">cv</span><span class="crayon-o">=</span><span class="crayon-v">kfold</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-5911342cab3d3462103611-15"><span class="crayon-e">print</span><span class="crayon-sy">(</span><span class="crayon-s">"Accuracy: %.2f%% (%.2f%%)"</span><span class="crayon-h"> </span><span class="crayon-o">%</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">results</span><span class="crayon-sy">.</span><span class="crayon-e">mean</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-o">*</span><span class="crayon-cn">100</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">results</span><span class="crayon-sy">.</span><span class="crayon-e">std</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-o">*</span><span class="crayon-cn">100</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0010 seconds] -->
+<p>Running this example produces the following output.</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5911342cab3d6824227508" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+Accuracy: 76.95% (5.88%)</textarea></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5911342cab3d6824227508-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5911342cab3d6824227508-1">Accuracy: 76.95% (5.88%)</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0000 seconds] -->
+<p></p>
+<h2>What Techniques to Use When</h2>
+<ul>
+<li>Generally, k-fold cross validation is the gold-standard for evaluating the performance of a machine learning algorithm on unseen data with k set to 3, 5, or 10.</li>
+<li>Use stratified cross validation to enforce class distributions when there are a large number of classes or an imbalance in instances for each class.</li>
+<li>Using a train/test split is good for speed when using a slow algorithm and produces performance estimates with lower bias when using large datasets.</li>
+</ul>
+<p>The best advice is to experiment and find a technique for your problem that is fast and produces reasonable estimates of performance that you can use to make decisions.</p>
+<p>If in doubt, use 10-fold cross validation for regression problems and stratified 10-fold cross validation on classification problems.</p>
+<h2>Summary</h2>
+<p>In this tutorial, you discovered how you can evaluate your XGBoost models by estimating how well they are likely to perform on unseen data.</p>
+<p>Specifically, you learned:</p>
+<ul>
+<li>How to split your dataset into train and test subsets for training and evaluating the performance of your model.</li>
+<li>How you can create k XGBoost models on different subsets of the dataset and average the scores to get a more robust estimate of model performance.</li>
+<li>Heuristics to help choose between train-test split and k-fold cross validation for your problem.</li>
+</ul>
+<p>Do you have any questions on how to evaluate the performance of XGBoost models or about this post? Ask your questions in the comments below and I will do my best to answer.</p>
+<!-- Start Shortcoder content --><p style="text-align: left;"><div class="woo-sc-hr"></div></p>
+<h2 style="text-align: center;">Want To Learn The Algorithm Winning Competitions?</h2>
+<h4 style="text-align: center;">Develop Your Own XGBoost Models in Minutes</h4>
+<p style="text-align: center;">...with just a few lines of Python</p>
+<p style="text-align: center;">Discover how in my new Ebook: <a href="https://machinelearningmastery.com/xgboost-with-python/">XGBoost With Python</a></p>
+<p style="text-align: center;">It covers <strong>self-study tutorials</strong> on topics like:<br /><em>Algorithm Fundamentals</em>, <em>Scaling</em>, <em>Hyperparameter Tuning</em>, and much more...</p>
+<h4 style="text-align: center;">Bring The Power of XGBoost To<br />Your Own Projects</h4>
+<p style="text-align: center;">Skip the Academics. Just Results.</p>
+<p style="text-align: center;"><a href="https://machinelearningmastery.com/xgboost-with-python/">Click to learn more</a>.</p>
+<p style="text-align: left;"><div class="woo-sc-hr"></div></p><!-- End Shortcoder content -->
+	</section><!-- /.entry -->
+	<div class="fix"></div>
+<aside id="post-author">
+	<div class="profile-image"><img alt='' src='http://1.gravatar.com/avatar/1d75d46040c28497f0dee5d8e100db37?s=80&#038;d=mm&#038;r=g' srcset='http://1.gravatar.com/avatar/1d75d46040c28497f0dee5d8e100db37?s=160&amp;d=mm&amp;r=g 2x' class='avatar avatar-80 photo' height='80' width='80' /></div>
+	<div class="profile-content">
+		<h4>About Jason Brownlee</h4>
+		Dr. Jason Brownlee is a husband, proud father, academic researcher, author, professional developer and a machine learning practitioner. He is dedicated to helping developers get started and get good at applied machine learning.
+<a href="/about">Learn more</a>.				<div class="profile-link">
+			<a href="http://machinelearningmastery.com/author/jasonb/">
+				View all posts by Jason Brownlee <span class="meta-nav">&rarr;</span>			</a>
+		</div><!--#profile-link-->
+			</div>
+	<div class="fix"></div>
+</aside>
+<div class="post-utility"></div>
+</article><!-- /.post -->
+	        <div class="post-entries">
+	            <div class="nav-prev fl"><a href="http://machinelearningmastery.com/save-gradient-boosting-models-xgboost-python/" rel="prev"><i class="fa fa-angle-left"></i> How to Save Gradient Boosting Models with XGBoost in Python</a></div>
+	            <div class="nav-next fr"><a href="http://machinelearningmastery.com/visualize-gradient-boosting-decision-trees-xgboost-python/" rel="next">How to Visualize Gradient Boosting Decision Trees With XGBoost in Python <i class="fa fa-angle-right"></i></a></div>
+	            <div class="fix"></div>
+	        </div>
+
+		<div id="comments">		 	<h3 id="comments-title">4 Responses to <em>How to Evaluate Gradient Boosting Models with XGBoost in Python</em></h3>
+		 	<ol class="commentlist">
+				
+		<li id="comment-384567" class="comment even thread-even depth-1">
+
+	      	<div id="li-comment-384567" class="comment-container">
+
+					                <div class="avatar"><img alt='' src='http://0.gravatar.com/avatar/6d5c9fe77dba9685a70d154915df8e6d?s=40&#038;d=mm&#038;r=g' srcset='http://0.gravatar.com/avatar/6d5c9fe77dba9685a70d154915df8e6d?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /></div>
+	            
+		      	<div class="comment-head">
+
+	                <span class="name">Agnes</span>
+	                <span class="date">January 27, 2017 at 9:07 pm</span>
+	                <span class="perma"><a href="http://machinelearningmastery.com/evaluate-gradient-boosting-models-xgboost-python/#comment-384567" title="Direct link to this comment">#</a></span>
+	                <span class="edit"></span>
+
+				</div><!-- /.comment-head -->
+
+		   		<div class="comment-entry">
+
+				<p>Hi Jason,<br />
+thank you for this article. You didn&#8217;t mention the Leave-One-Out cross-validator method.<br />
+Is it the same logic that the k-Fold Cross Validation (exept that the size of the test set is 1) ?<br />
+Would you recommend to use Leave-One-Out cross-validator or k-Fold Cross Validation for a small dataset (approximately 2000 rows) ?<br />
+Regards,<br />
+Agnes</p>
+
+				
+	                <div class="reply">
+	                    <a rel='nofollow' class='comment-reply-link' href='http://machinelearningmastery.com/evaluate-gradient-boosting-models-xgboost-python/?replytocom=384567#respond' onclick='return addComment.moveForm( "comment-384567", "384567", "respond", "2992" )' aria-label='Reply to Agnes'>Reply</a>	                </div><!-- /.reply -->
+
+				</div><!-- /comment-entry -->
+
+			</div><!-- /.comment-container -->
+
+	<ul class="children">
+
+		<li id="comment-384649" class="comment byuser comment-author-jasonb bypostauthor odd alt depth-2">
+
+	      	<div id="li-comment-384649" class="comment-container">
+
+					                <div class="avatar"><img alt='' src='http://1.gravatar.com/avatar/1d75d46040c28497f0dee5d8e100db37?s=40&#038;d=mm&#038;r=g' srcset='http://1.gravatar.com/avatar/1d75d46040c28497f0dee5d8e100db37?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /></div>
+	            
+		      	<div class="comment-head">
+
+	                <span class="name"><a href='http://MachineLearningMastery.com' rel='external nofollow' class='url'>Jason Brownlee</a></span>
+	                <span class="date">January 28, 2017 at 7:36 am</span>
+	                <span class="perma"><a href="http://machinelearningmastery.com/evaluate-gradient-boosting-models-xgboost-python/#comment-384649" title="Direct link to this comment">#</a></span>
+	                <span class="edit"></span>
+
+				</div><!-- /.comment-head -->
+
+		   		<div class="comment-entry">
+
+				<p>Hi Agnes,</p>
+<p>Yes, it is like 1-fold cross validation, repeated for every pattern in the dataset.</p>
+<p>From my reading, you are better off using k-fold cross validation.</p>
+
+				
+	                <div class="reply">
+	                    <a rel='nofollow' class='comment-reply-link' href='http://machinelearningmastery.com/evaluate-gradient-boosting-models-xgboost-python/?replytocom=384649#respond' onclick='return addComment.moveForm( "comment-384649", "384649", "respond", "2992" )' aria-label='Reply to Jason Brownlee'>Reply</a>	                </div><!-- /.reply -->
+
+				</div><!-- /comment-entry -->
+
+			</div><!-- /.comment-container -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+
+		<li id="comment-398433" class="comment even thread-odd thread-alt depth-1">
+
+	      	<div id="li-comment-398433" class="comment-container">
+
+					                <div class="avatar"><img alt='' src='http://1.gravatar.com/avatar/442eaf82b58bbdbc00422f7fedce95c8?s=40&#038;d=mm&#038;r=g' srcset='http://1.gravatar.com/avatar/442eaf82b58bbdbc00422f7fedce95c8?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /></div>
+	            
+		      	<div class="comment-head">
+
+	                <span class="name"><a href='http://machinelearningmastery.com/evaluate-gradient-boosting-models-xgboost-python/' rel='external nofollow' class='url'>Siva</a></span>
+	                <span class="date">May 3, 2017 at 8:15 pm</span>
+	                <span class="perma"><a href="http://machinelearningmastery.com/evaluate-gradient-boosting-models-xgboost-python/#comment-398433" title="Direct link to this comment">#</a></span>
+	                <span class="edit"></span>
+
+				</div><!-- /.comment-head -->
+
+		   		<div class="comment-entry">
+
+				<p>Hi Jason, How to find the accuracy for XGBRegressor model?</p>
+
+				
+	                <div class="reply">
+	                    <a rel='nofollow' class='comment-reply-link' href='http://machinelearningmastery.com/evaluate-gradient-boosting-models-xgboost-python/?replytocom=398433#respond' onclick='return addComment.moveForm( "comment-398433", "398433", "respond", "2992" )' aria-label='Reply to Siva'>Reply</a>	                </div><!-- /.reply -->
+
+				</div><!-- /comment-entry -->
+
+			</div><!-- /.comment-container -->
+
+	<ul class="children">
+
+		<li id="comment-398490" class="comment byuser comment-author-jasonb bypostauthor odd alt depth-2">
+
+	      	<div id="li-comment-398490" class="comment-container">
+
+					                <div class="avatar"><img alt='' src='http://1.gravatar.com/avatar/1d75d46040c28497f0dee5d8e100db37?s=40&#038;d=mm&#038;r=g' srcset='http://1.gravatar.com/avatar/1d75d46040c28497f0dee5d8e100db37?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' /></div>
+	            
+		      	<div class="comment-head">
+
+	                <span class="name"><a href='http://MachineLearningMastery.com' rel='external nofollow' class='url'>Jason Brownlee</a></span>
+	                <span class="date">May 4, 2017 at 8:07 am</span>
+	                <span class="perma"><a href="http://machinelearningmastery.com/evaluate-gradient-boosting-models-xgboost-python/#comment-398490" title="Direct link to this comment">#</a></span>
+	                <span class="edit"></span>
+
+				</div><!-- /.comment-head -->
+
+		   		<div class="comment-entry">
+
+				<p>You cannot calculate accuracy for regression algorithms. There are no classes. You must calculate an error like mean squared error.</p>
+
+				
+	                <div class="reply">
+	                    <a rel='nofollow' class='comment-reply-link' href='http://machinelearningmastery.com/evaluate-gradient-boosting-models-xgboost-python/?replytocom=398490#respond' onclick='return addComment.moveForm( "comment-398490", "398490", "respond", "2992" )' aria-label='Reply to Jason Brownlee'>Reply</a>	                </div><!-- /.reply -->
+
+				</div><!-- /comment-entry -->
+
+			</div><!-- /.comment-container -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+			</ol>
+		 	</div>	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/evaluate-gradient-boosting-models-xgboost-python/#respond" style="display:none;">Click here to cancel reply.</a></small></h3>			<form action="http://machinelearningmastery.com/wp-comments-post.php?wpe-comment-post=mlmastery" method="post" id="commentform" class="comment-form">
+				<p class="comment-form-comment"><label class="hide" for="comment">Comment</label> <textarea tabindex="4" id="comment" name="comment" cols="50" rows="10" maxlength="65525" aria-required="true" required="required"></textarea></p><p class="comment-form-author"><input id="author" name="author" type="text" class="txt" tabindex="1" value="" size="30" aria-required='true' /><label for="author">Name <span class="required">(required)</span></label> </p>
+<p class="comment-form-email"><input id="email" name="email" type="text" class="txt" tabindex="2" value="" size="30" aria-required='true' /><label for="email">Email (will not be published) <span class="required">(required)</span></label> </p>
+<p class="comment-form-url"><input id="url" name="url" type="text" class="txt" tabindex="3" value="" size="30" /><label for="url">Website</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Submit Comment" /> <input type='hidden' name='comment_post_ID' value='2992' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="561f66fd35" /></p><p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="138"/></p>			</form>
+			</div><!-- #respond -->
+	     
+            </section><!-- /#main -->
+                
+            <aside id="sidebar">
+<div id="woo_blogauthorinfo-2" class="widget widget_woo_blogauthorinfo"><h3>Welcome to Machine Learning Mastery</h3><span class="left"><img alt='' src='http://1.gravatar.com/avatar/1d75d46040c28497f0dee5d8e100db37?s=100&#038;d=mm&#038;r=g' srcset='http://1.gravatar.com/avatar/1d75d46040c28497f0dee5d8e100db37?s=200&amp;d=mm&amp;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /></span>
+<p>Hi, I'm Dr. Jason Brownlee.
+<br>
+My goal is to make practitioners like YOU awesome at applied machine learning.</p>
+<p><a href="/about">Read More</a></p>
+<div class="fix"></div>
+</div><div id="text-4" class="widget widget_text">			<div class="textwidget"><p><center></p>
+<h3>The Algorithm that is Winning Competitions</h3>
+<p>Discover the machine learning algorithm<br />
+that is Winning Competitions.</p>
+<p><a href="https://machinelearningmastery.com/xgboost-with-python/">Get Started With XGBoost in Python Today!</a><br />
+<a href="https://machinelearningmastery.com/xgboost-with-python/"><img src="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/uploads/2016/06/XGBoostWithPython-220.png"></a><br />
+</center></p>
+</div>
+		</div>
+		<div id="woo_tabs-2" class="widget widget_woo_tabs"> 		<div id="tabs">
+
+            <ul class="wooTabs">
+                                <li class="popular"><a href="#tab-pop">Popular</a></li>                                                            </ul>
+
+            <div class="clear"></div>
+
+            <div class="boxes box inside">
+
+	            
+                                <ul id="tab-pop" class="list">
+                    	<li>
+		<a href="http://machinelearningmastery.com/time-series-prediction-lstm-recurrent-neural-networks-python-keras/" title="Time Series Prediction with LSTM Recurrent Neural Networks in Python with Keras"><img width="45" height="45" src="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/uploads/2016/07/Time-Series-Prediction-with-LSTM-Recurrent-Neural-Networks-in-Python-with-Keras-150x150.jpg" class="thumbnail wp-post-image" alt="Time Series Prediction with LSTM Recurrent Neural Networks in Python with Keras" title="Time Series Prediction with LSTM Recurrent Neural Networks in Python with Keras" /></a>		<a title="Time Series Prediction with LSTM Recurrent Neural Networks in Python with Keras" href="http://machinelearningmastery.com/time-series-prediction-lstm-recurrent-neural-networks-python-keras/">Time Series Prediction with LSTM Recurrent Neural Networks in Python with Keras</a>
+		<span class="meta">July 21, 2016</span>
+		<div class="fix"></div>
+	</li>
+		<li>
+		<a href="http://machinelearningmastery.com/machine-learning-in-python-step-by-step/" title="Your First Machine Learning Project in Python Step-By-Step"><img width="45" height="45" src="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/uploads/2016/06/Your-First-Machine-Learning-Project-in-Python-Step-By-Step-150x150.jpg" class="thumbnail wp-post-image" alt="Your First Machine Learning Project in Python Step-By-Step" title="Your First Machine Learning Project in Python Step-By-Step" /></a>		<a title="Your First Machine Learning Project in Python Step-By-Step" href="http://machinelearningmastery.com/machine-learning-in-python-step-by-step/">Your First Machine Learning Project in Python Step-By-Step</a>
+		<span class="meta">June 10, 2016</span>
+		<div class="fix"></div>
+	</li>
+		<li>
+		<a href="http://machinelearningmastery.com/tutorial-first-neural-network-python-keras/" title="Develop Your First Neural Network in Python With Keras Step-By-Step"><img width="45" height="45" src="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/uploads/2016/04/Tour-of-Deep-Learning-Algorithms-150x150.jpg" class="thumbnail wp-post-image" alt="Tour of Deep Learning Algorithms" title="Develop Your First Neural Network in Python With Keras Step-By-Step" /></a>		<a title="Develop Your First Neural Network in Python With Keras Step-By-Step" href="http://machinelearningmastery.com/tutorial-first-neural-network-python-keras/">Develop Your First Neural Network in Python With Keras Step-By-Step</a>
+		<span class="meta">May 24, 2016</span>
+		<div class="fix"></div>
+	</li>
+		<li>
+		<a href="http://machinelearningmastery.com/sequence-classification-lstm-recurrent-neural-networks-python-keras/" title="Sequence Classification with LSTM Recurrent Neural Networks in Python with Keras"><img width="45" height="45" src="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/uploads/2016/07/Sequence-Classification-with-LSTM-Recurrent-Neural-Networks-in-Python-with-Keras-150x150.jpg" class="thumbnail wp-post-image" alt="Sequence Classification with LSTM Recurrent Neural Networks in Python with Keras" title="Sequence Classification with LSTM Recurrent Neural Networks in Python with Keras" /></a>		<a title="Sequence Classification with LSTM Recurrent Neural Networks in Python with Keras" href="http://machinelearningmastery.com/sequence-classification-lstm-recurrent-neural-networks-python-keras/">Sequence Classification with LSTM Recurrent Neural Networks in Python with Keras</a>
+		<span class="meta">July 26, 2016</span>
+		<div class="fix"></div>
+	</li>
+		<li>
+		<a href="http://machinelearningmastery.com/multi-class-classification-tutorial-keras-deep-learning-library/" title="Multi-Class Classification Tutorial with the Keras Deep Learning Library"><img width="45" height="45" src="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/uploads/2016/06/Multi-Class-Classification-Tutorial-with-the-Keras-Deep-Learning-Library-150x150.jpg" class="thumbnail wp-post-image" alt="Multi-Class Classification Tutorial with the Keras Deep Learning Library" title="Multi-Class Classification Tutorial with the Keras Deep Learning Library" /></a>		<a title="Multi-Class Classification Tutorial with the Keras Deep Learning Library" href="http://machinelearningmastery.com/multi-class-classification-tutorial-keras-deep-learning-library/">Multi-Class Classification Tutorial with the Keras Deep Learning Library</a>
+		<span class="meta">June 2, 2016</span>
+		<div class="fix"></div>
+	</li>
+		<li>
+		<a href="http://machinelearningmastery.com/how-to-run-your-first-classifier-in-weka/" title="How to Run Your First Classifier in Weka"><img width="45" height="45" src="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/uploads/2014/02/weka-zeror-150x150.png" class="thumbnail wp-post-image" alt="Weka Results for the ZeroR algorithm on the Iris flower dataset" title="How to Run Your First Classifier in Weka" /></a>		<a title="How to Run Your First Classifier in Weka" href="http://machinelearningmastery.com/how-to-run-your-first-classifier-in-weka/">How to Run Your First Classifier in Weka</a>
+		<span class="meta">February 17, 2014</span>
+		<div class="fix"></div>
+	</li>
+		<li>
+		<a href="http://machinelearningmastery.com/tutorial-to-implement-k-nearest-neighbors-in-python-from-scratch/" title="Tutorial To Implement k-Nearest Neighbors in Python From Scratch"><img width="45" height="45" src="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/uploads/2014/09/k-Nearest-Neighbors-algorithm-150x150.png" class="thumbnail wp-post-image" alt="k-Nearest Neighbors algorithm" title="Tutorial To Implement k-Nearest Neighbors in Python From Scratch" /></a>		<a title="Tutorial To Implement k-Nearest Neighbors in Python From Scratch" href="http://machinelearningmastery.com/tutorial-to-implement-k-nearest-neighbors-in-python-from-scratch/">Tutorial To Implement k-Nearest Neighbors in Python From Scratch</a>
+		<span class="meta">September 12, 2014</span>
+		<div class="fix"></div>
+	</li>
+		<li>
+		<a href="http://machinelearningmastery.com/a-tour-of-machine-learning-algorithms/" title="A Tour of Machine Learning Algorithms"><img width="45" height="45" src="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/uploads/2013/11/ensemble-150x150.png" class="thumbnail wp-post-image" alt="Ensemble Learning Method" title="A Tour of Machine Learning Algorithms" /></a>		<a title="A Tour of Machine Learning Algorithms" href="http://machinelearningmastery.com/a-tour-of-machine-learning-algorithms/">A Tour of Machine Learning Algorithms</a>
+		<span class="meta">November 25, 2013</span>
+		<div class="fix"></div>
+	</li>
+		<li>
+		<a href="http://machinelearningmastery.com/regression-tutorial-keras-deep-learning-library-python/" title="Regression Tutorial with the Keras Deep Learning Library in Python"><img width="45" height="45" src="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/uploads/2016/06/Regression-Tutorial-with-Keras-Deep-Learning-Library-in-Python-150x150.jpg" class="thumbnail wp-post-image" alt="Regression Tutorial with Keras Deep Learning Library in Python" title="Regression Tutorial with the Keras Deep Learning Library in Python" /></a>		<a title="Regression Tutorial with the Keras Deep Learning Library in Python" href="http://machinelearningmastery.com/regression-tutorial-keras-deep-learning-library-python/">Regression Tutorial with the Keras Deep Learning Library in Python</a>
+		<span class="meta">June 9, 2016</span>
+		<div class="fix"></div>
+	</li>
+		<li>
+		<a href="http://machinelearningmastery.com/implement-backpropagation-algorithm-scratch-python/" title="How to Implement the Backpropagation Algorithm From Scratch In Python"><img width="45" height="45" src="http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/uploads/2016/11/How-to-Implement-the-Backpropagation-Algorithm-From-Scratch-In-Python-150x150.jpg" class="thumbnail wp-post-image" alt="How to Implement the Backpropagation Algorithm From Scratch In Python" title="How to Implement the Backpropagation Algorithm From Scratch In Python" /></a>		<a title="How to Implement the Backpropagation Algorithm From Scratch In Python" href="http://machinelearningmastery.com/implement-backpropagation-algorithm-scratch-python/">How to Implement the Backpropagation Algorithm From Scratch In Python</a>
+		<span class="meta">November 7, 2016</span>
+		<div class="fix"></div>
+	</li>
+	                </ul>
+                                                                
+            </div><!-- /.boxes -->
+
+        </div><!-- /wooTabs -->
+
+        </div>         </aside><!-- /#sidebar -->
+
+		</div><!-- /#main-sidebar-container -->         
+
+		
+    </div><!-- /#content -->
+	
+	<footer id="footer" class="col-full">
+
+		
+		<div id="copyright" class="col-left">
+			<p>&copy; 2017 Machine Learning Mastery. All Rights Reserved. </p>		</div>
+
+		<div id="credit" class="col-right">
+			<p><p>
+<a href="/privacy/">Privacy</a> | 
+<a href="/contact/">Contact</a> |
+<a href="/about/">About</a>
+</p></p>		</div>
+
+	</footer>
+
+	
+	</div><!-- /#inner-wrapper -->
+
+</div><!-- /#wrapper -->
+
+<div class="fix"></div><!--/.fix-->
+
+<!-- Drip Code -->
+<script type="text/javascript">
+  var _dcq = _dcq || [];
+  var _dcs = _dcs || {}; 
+  _dcs.account = '9556588';
+  
+  (function() {
+    var dc = document.createElement('script');
+    dc.type = 'text/javascript'; dc.async = true; 
+    dc.src = '//tag.getdrip.com/9556588.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(dc, s);
+  })();
+</script><!-- Woo Tabs Widget -->
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	// UL = .wooTabs
+	// Tab contents = .inside
+
+	var tag_cloud_class = '#tagcloud';
+
+	//Fix for tag clouds - unexpected height before .hide()
+	var tag_cloud_height = jQuery( '#tagcloud').height();
+
+	jQuery( '.inside ul li:last-child').css( 'border-bottom','0px' ); // remove last border-bottom from list in tab content
+	jQuery( '.wooTabs').each(function(){
+		jQuery(this).children( 'li').children( 'a:first').addClass( 'selected' ); // Add .selected class to first tab on load
+	});
+	jQuery( '.inside > *').hide();
+	jQuery( '.inside > *:first-child').show();
+
+	jQuery( '.wooTabs li a').click(function(evt){ // Init Click funtion on Tabs
+
+		var clicked_tab_ref = jQuery(this).attr( 'href' ); // Strore Href value
+
+		jQuery(this).parent().parent().children( 'li').children( 'a').removeClass( 'selected' ); //Remove selected from all tabs
+		jQuery(this).addClass( 'selected' );
+		jQuery(this).parent().parent().parent().children( '.inside').children( '*').hide();
+
+		jQuery( '.inside ' + clicked_tab_ref).fadeIn(500);
+
+		 evt.preventDefault();
+
+	})
+})
+</script>
+<script type='text/javascript' src='http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/plugins/akismet/_inc/form.js?ver=3.3.1'></script>
+<script type='text/javascript' src='http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-includes/js/comment-reply.min.js?ver=4.7.4'></script>
+<script type='text/javascript' src='http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-includes/js/wp-embed.min.js?ver=4.7.4'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var fsb = {"ajax":"http:\/\/machinelearningmastery.com\/wp-admin\/admin-ajax.php","nonce":"f13d600148"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://3qeqpr26caki16dnhd19sv6by6v.wpengine.netdna-cdn.com/wp-content/plugins/floating-social-bar/js/fsb.js?ver=1.1.7'></script>
+</body>
+</html>
