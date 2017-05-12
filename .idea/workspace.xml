@@ -2,7 +2,69 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8043f664-8211-4e5c-84bb-23aa53a07286" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/.idea/Ziff.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/.idea/misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/.idea/workspace.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/.ipynb_checkpoints/Untitled-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/.ipynb_checkpoints/Ziff_Churn-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/.ipynb_checkpoints/Ziff_xgboost-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/.ipynb_checkpoints/nlp-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/6_lstm.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/An Introduction to Supervised Learning via Scikit Learn _ Bugra Akyildiz.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/Basic timeseries exploration.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/Discover+Sentiments+in+Tweets.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/How to Evaluate Gradient Boosting Models with XGBoost in Python - Machine Learning Mastery.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/Keras_FNN_BitTiger.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/Predictive+Maintenance+Modelling+Guide+Python+3+Notebook.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/Ziff_xgboost (1).ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/Ziff_xgboost (2).ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/Ziff_xgboost.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/Ziff_xgboost.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ann.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/babi_rnn.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/churn-prediction.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/churn.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/deepdream.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/grid_search.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/k_fold_cross_validation.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/394671342.js.download" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/MathJax.js.download" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/TeX-AMS-MML_HTMLorMML.js.download" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/adsct" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/analytics.js.download" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/charts.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/cloud.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/data-frame-rodeo.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/enh8ddt.js.download" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/ggplot.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/jquery.min.js.download" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/logo_white_hat.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/modernizr.js.download" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/netflix.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/oct.js.download" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/over-the-wall.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/r-to-python.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/rodeo-overview-shot.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/see-you-later.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/vex-theme-bottom-right-corner.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/vex.combined.min.js.download" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/vex.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/workbook.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/yhat-blog.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/yhat-blog.js.download" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/yhat-logo-transparent.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Churn/reference/ŷhat _ Predicting customer churn with scikit-learn_files/yhat_clear_bkg.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Reference/cplive直播课件.pptx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Reference/imdb_cnn_lstm.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Reference/plot_detections.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Sentiment/.ipynb_checkpoints/Ziff_Sentiment-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Sentiment/natural_language_processing.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Sentiment/nlp.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Sentiment/nlp.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,13 +78,16 @@
     <favorites_list name="Ziff" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20">
-              <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-              <folding />
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="0">
+                <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                <folding />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -56,10 +121,22 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ziff" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 3.6.0 (~/anaconda3/bin/python) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="Ziff" />
@@ -70,8 +147,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ziff" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ziff" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Churn" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -96,6 +189,73 @@
         </RuleState>
       </list>
     </option>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Ziff" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Ziff" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Ziff" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Ziff" />
+      <option name="_new_regexPattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method />
+    </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
@@ -132,21 +292,21 @@
     <layout>
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24980783" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -163,10 +323,30 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider editor-type-id="text-editor">
         <state relative-caret-position="20">
           <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
